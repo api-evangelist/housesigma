@@ -1,0 +1,228 @@
+aid: housesigma
+name: HouseSigma
+review:
+  question: Does HouseSigma publish a public, documented API — and what is its RESO posture?
+  answer: false
+  date: '2026-07-26'
+  reviewer: API Evangelist
+  homeMarket: Canada
+  tier: portal-marketplace
+
+sectorPosture:
+  homeMarket: Canada
+  resoPosture: >-
+    No RESO reference found. HouseSigma is not RESO-certified and does not appear to
+    be a RESO member. RESO's own Canadian Membership page (https://www.reso.org/canadian-membership/,
+    HTTP 200, fetched 2026-07-26) enumerates 19 Canadian member organizations —
+    Canadian Real Estate Association, Centris, Clientime, Falcon Technologies
+    Corporation, Listed, Local Logic, Multi List Platform Limited Partnership,
+    Municipal Property Assessment Corporation (MPAC), Origin Confirmed Ltd, Phoenix
+    Software, Planitar, PropTexx, Prospects Software, REALTORS Association of
+    Edmonton, Real Estate Board of Greater Vancouver, Saskatchewan REALTORS
+    Association, Templates 4 Business, Victoria Real Estate Board, Winnipeg Regional
+    Real Estate Board — and HouseSigma is not among them. No RESO Web API
+    certification, no Data Dictionary certification (no version), no RESO
+    certification directory entry, no Reso/OData endpoint, no $metadata document, and
+    no Universal Property Identifier (UPI) usage was observed on any HouseSigma host.
+    This is the expected Canadian answer: RESO certification is a US/NAR-driven
+    industry mandate, and Canadian residential listings instead flow through CREA's
+    national Data Distribution Facility (DDF), which HouseSigma's own robots.txt
+    references as a disallowed route (Disallow: /bkv2/landing/rootpage/ddf).
+  resoCertified: false
+  resoCertificationType: none
+  resoDataDictionaryVersion: null
+  resoDirectoryEvidence: >-
+    https://certification.reso.org/ was probed (2026-07-26) and returned no usable
+    directory content anonymously; https://certification.reso.org/organizations,
+    /api/organizations and /data/organizations.json all returned HTTP 400 with a
+    zero-length body. Negative evidence therefore rests on RESO's published Canadian
+    membership roster, which does not include HouseSigma.
+  accessGate: none-published
+  accessGateDetail: >-
+    There is nothing for a developer to sign or join, because there is nothing on
+    offer. HouseSigma publishes no developer portal, no API program page, no partner
+    or data-licensing page, no application form, and no terms of API use. A developer
+    cannot self-serve, cannot apply, and is not offered a partner path. The only
+    machine-readable surface is the private backend at https://housesigma.com/bkv2/api/,
+    which the site's robots.txt explicitly forbids to all user agents
+    (Disallow: /bkv2/api/). Underneath that, the listing and sold data itself is
+    board-licensed: HouseSigma obtains it as HouseSigma, Inc. Brokerage — a licensed
+    Canadian brokerage with board/MLS membership — which is a corporate licensing
+    posture, not a developer onboarding path. Any third party wanting this data must
+    either become a member brokerage themselves or go to CREA's DDF, not to
+    HouseSigma.
+  openData: false
+  openDataDetail: >-
+    No open, unlicensed, publicly callable HouseSigma dataset exists. The sitemaps
+    published in robots.txt (e.g. https://housesigma.com/bkv2/sitemap/live-v3-index.xml,
+    HTTP 200, 12,817 bytes) are SEO crawl indexes of HTML pages, not a data product.
+    Canada has no national counterpart to HM Land Registry Price Paid or Ordnance
+    Survey open data; provincial land registration is largely privatised (Teranet
+    operates Ontario's registry under concession), so even the public record is a
+    commercial product here.
+  authModel: >-
+    None published. No API key programme, no OAuth 2.0 or OpenID Connect developer
+    flow, and no SAML member portal is documented for third parties.
+    https://housesigma.com/.well-known/openid-configuration returned HTTP 404 and
+    https://housesigma.com/.well-known/security.txt returned HTTP 404. The consumer
+    site uses ordinary session-based account sign-in for its own watchlist and
+    estimate features; the private /bkv2/api/ backend sets CORS credentials headers
+    (access-control-allow-credentials: true) consistent with first-party cookie/session
+    auth for its own apps, but nothing about it is documented or offered externally.
+  webhooksEventsSdksPostman: >-
+    None found. No webhook or event documentation, no published SDK, no Postman
+    workspace or collection. The GitHub organization https://github.com/housesigma
+    (HTTP 200) exists with four public repositories — openmaptiles (a fork of the
+    OpenMapTiles vector tile schema), hr-interview, atlas (TypeScript), and
+    listing-chatbot-design — none of which is an API specification, client SDK, or
+    developer artifact. Absence across all four categories is itself the finding.
+  productApiFamily: >-
+    Faithfully, HouseSigma has product surfaces but no API family. The documented
+    consumer products, as segmented by the site itself, are: map-based listing search
+    for sale and for rent; sold-price history; a machine-learning home valuation
+    (the HouseSigma estimate, exposed at /home/estimate); recommendations
+    (/home/recommendation); and saved/shared watchlists (/user/watched/...). None of
+    these is offered as a callable, documented API.
+  coverage: >-
+    Ontario, British Columbia, and Alberta, evidenced by the province-scoped sitemaps
+    declared in robots.txt: on-sale-landing, bc-sale-landing, ab-sale-landing,
+    on-sold-landing, bc-sold-landing, ab-sold-landing, plus per-property-type
+    variants for condos, townhouses, and detached homes in each of the three
+    provinces.
+
+findings:
+  summary: |
+    HouseSigma is a closed platform with a real product and no developer surface.
+    Every conventional developer entry point was probed on 2026-07-26 and either
+    failed DNS resolution or returned the Vue single-page-application shell — a
+    uniform 4,971-byte HTML document with <title>HouseSigma</title> and
+    <meta name="author" content="HouseSigma, Inc. Brokerage"> — which means the
+    HTTP 200s on /developers, /api, /api-docs, /openapi.json and /swagger.json are
+    soft-200 SPA catch-alls, not content. No OpenAPI, no Swagger, no OData $metadata,
+    no AsyncAPI, no GraphQL schema, no Postman collection, and no SDK was found. The
+    one genuine machine surface, https://housesigma.com/bkv2/api/, answers with a
+    JSON envelope disclosing an internal build
+    ({"status":true,"data":{"message":""},"error":{"code":0,"message":""},
+    "debug":{"API":"v5.38.197","environment":"production",...}}) but is explicitly
+    disallowed to crawlers in robots.txt and carries no documentation, no terms, and
+    no key issuance. It is a private backend, not a product, and is deliberately NOT
+    listed in apis.yml. RESO is absent, which is the honest and expected answer for a
+    Canadian challenger portal: certification here is a US industry mandate, and the
+    Canadian seam is CREA's DDF — which HouseSigma's robots.txt does reference as a
+    disallowed landing route, indicating DDF-derived content exists on the site
+    without any accompanying developer access.
+  developerPortal: none
+  developerPortalConfirmed: false
+  openapiHarvested: false
+  specsCount: 0
+  gated: true
+  gateType: none-published
+
+probes:
+  - url: https://housesigma.com/
+    status: 200
+    note: Live. Vue SPA shell; meta author "HouseSigma, Inc. Brokerage".
+  - url: https://housesigma.com/robots.txt
+    status: 200
+    note: >-
+      Explicitly "Disallow: /bkv2/api/" and "Disallow: /bkv2/landing/rootpage/ddf" for
+      User-agent * and AdsBot-Google. Also disallows /home/estimate, /home/recommendation,
+      /search, /user/, and map query routes. Declares province-scoped sitemaps for ON, BC, AB.
+  - url: https://developer.housesigma.com/
+    status: 000
+    note: DNS does not resolve (curl 6, could not resolve host).
+  - url: https://developers.housesigma.com/
+    status: 000
+    note: DNS does not resolve (curl 6, could not resolve host).
+  - url: https://docs.housesigma.com/
+    status: 000
+    note: DNS does not resolve (curl 6, could not resolve host).
+  - url: https://api.housesigma.com/
+    status: 404
+    note: Host resolves and is served by nginx, but the root returns a plain nginx 404. No API documentation or contract.
+  - url: https://housesigma.com/developers
+    status: 200
+    note: Soft-200. Returns the 4,971-byte SPA shell, not a developer portal.
+  - url: https://housesigma.com/developer
+    status: 200
+    note: Soft-200 SPA shell.
+  - url: https://housesigma.com/api
+    status: 200
+    note: Soft-200 SPA shell.
+  - url: https://housesigma.com/api-docs
+    status: 200
+    note: Soft-200 SPA shell.
+  - url: https://housesigma.com/openapi.json
+    status: 200
+    note: Soft-200. Body begins "<!DOCTYPE html>" — HTML SPA shell, not JSON. Not a specification.
+  - url: https://housesigma.com/swagger.json
+    status: 200
+    note: Soft-200 SPA shell, not JSON. Not a specification.
+  - url: https://housesigma.com/$metadata
+    status: 200
+    note: Soft-200 SPA shell. No OData metadata document; HouseSigma is not an OData service.
+  - url: https://housesigma.com/.well-known/openid-configuration
+    status: 404
+    note: No OpenID Connect discovery document served anonymously.
+  - url: https://housesigma.com/.well-known/security.txt
+    status: 404
+    note: No security.txt / vulnerability disclosure pointer.
+  - url: https://housesigma.com/bkv2/api/
+    status: 200
+    note: >-
+      Private first-party backend. Returns JSON with debug.API "v5.38.197",
+      environment "production". CORS headers include access-control-allow-credentials: true.
+      Undocumented and robots-disallowed; not treated as a public API.
+  - url: https://housesigma.com/bkv2/landing/rootpage/ddf
+    status: 404
+    note: >-
+      The DDF route named in robots.txt returns 404 at its bare path (likely requires
+      parameters). Its presence in robots.txt is the evidence that CREA DDF-derived
+      content exists on the site.
+  - url: https://housesigma.com/bkv2/sitemap/live-v3-index.xml
+    status: 200
+    note: SEO sitemap index (12,817 bytes XML). Crawl aid, not a dataset or API.
+  - url: https://housesigma.com/blog-en/
+    status: 200
+    note: WordPress-backed market analysis blog. Covers BC (Metro Vancouver), Alberta (Edmonton, Calgary), Ontario (GTA).
+  - url: https://housesigma.com/blog-en/feed/
+    status: 200
+    note: Valid RSS feed (117,976 bytes). Recorded as BlogRSS in apis.yml.
+  - url: https://github.com/housesigma
+    status: 200
+    note: >-
+      Org id 50630040, blog https://housesigma.com. Four public repos — openmaptiles (fork),
+      hr-interview, atlas, listing-chatbot-design. No API spec, SDK, or developer artifact.
+  - url: https://www.linkedin.com/company/housesigma
+    status: 200
+    note: Company profile. Recorded in apis.yml common.
+  - url: https://www.reso.org/canadian-membership/
+    status: 200
+    note: RESO's Canadian member roster — 19 organizations, HouseSigma absent.
+  - url: https://certification.reso.org/
+    status: 200
+    note: Directory returned no usable content anonymously; sub-paths /organizations, /api/organizations, /data/organizations.json all returned HTTP 400 with empty bodies.
+
+sources:
+  - url: https://housesigma.com/robots.txt
+    type: Documentation
+    note: Primary evidence for the private /bkv2/api/ backend, the DDF landing route, and ON/BC/AB coverage.
+  - url: https://www.reso.org/canadian-membership/
+    type: Documentation
+    note: RESO's own list of Canadian members; HouseSigma is not on it.
+  - url: https://github.com/housesigma
+    type: GitHubOrganization
+    note: Public repos contain no API artifacts.
+  - url: https://housesigma.com/blog-en/
+    type: Blog
+    note: Confirms market coverage across BC, Alberta, and Ontario.
+
+actions:
+  apisYmlCreated: true
+  apisListed: 0
+  openapiDirectoryCreated: false
+  reason: >-
+    apis[] is deliberately empty. HouseSigma documents no public API, so listing the
+    undocumented, robots-disallowed /bkv2/api/ backend would misrepresent a private
+    implementation detail as a developer product. No specification of any kind was
+    harvested, so no openapi/ directory was created.
