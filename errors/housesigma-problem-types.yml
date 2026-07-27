@@ -1,0 +1,79 @@
+generated: '2026-07-26'
+method: searched
+source: >-
+  live error responses captured from https://housesigma.com/blog-en/wp-json/ on 2026-07-26,
+  cross-checked against openapi/housesigma-blog-content-openapi.yml
+format: wp-rest-error
+rfc9457: false
+note: >-
+  HouseSigma's public Blog Content API does not use RFC 9457 problem+json. It returns the
+  standard WordPress REST error envelope as application/json - a flat object of
+  {code, message, data:{status,...}} - on every failure. The envelope carries a stable,
+  machine-readable string `code`, a human `message`, and the HTTP status echoed inside
+  `data.status`. Validation failures additionally carry `data.params` (a map of parameter
+  name to message) and `data.details` (a nested per-parameter error object). Every entry
+  below was observed live; none is inferred.
+envelope:
+  media_type: application/json
+  fields:
+    code: Stable machine-readable error identifier (string).
+    message: Human-readable description (string).
+    data.status: HTTP status code, echoed in the body (integer).
+    data.params: Validation only - map of parameter name to failure message (object).
+    data.details: Validation only - nested per-parameter error object with its own code/message.
+problems:
+- code: rest_no_route
+  status: 404
+  title: No route was found matching the URL and request method.
+  cause: The requested path is not a registered route in the wp-json namespace.
+  remediation: >-
+    Re-read the live route list at https://housesigma.com/blog-en/wp-json/ and use a
+    registered path; check the HTTP method is one the route declares.
+  observed: GET /blog-en/wp-json/wp/v2/nonexistent
+  example: examples/housesigma-blog-content-error-404-rest_post_invalid_id.json
+- code: rest_post_invalid_id
+  status: 404
+  title: Invalid post ID.
+  cause: The route matched but no post/page/media item exists with that id.
+  remediation: List the collection first and use an id from the response.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getPost
+  observed: GET /blog-en/wp-json/wp/v2/posts/999999999
+  example: examples/housesigma-blog-content-error-404-rest_post_invalid_id.json
+- code: rest_invalid_param
+  status: 400
+  title: Invalid parameter(s).
+  cause: >-
+    A query parameter failed the bounds/enum/type declared for it in the route-discovery
+    document - e.g. per_page outside 1..100, or an order value other than asc/desc.
+  remediation: >-
+    Read data.params for the per-parameter message; the OpenAPI carries the same minimum,
+    maximum and enum values copied from the live discovery document.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listPosts
+  observed: GET /blog-en/wp-json/wp/v2/posts?per_page=999
+  example: examples/housesigma-blog-content-error-400-rest_invalid_param.json
+- code: rest_forbidden
+  status: 401
+  title: Sorry, you are not allowed to do that.
+  cause: >-
+    The route exists but is not readable anonymously. Returned for /wp/v2/settings,
+    /oembed/1.0/proxy and /basepress_kb/v1/kb_categories, and for every write method.
+  remediation: >-
+    Authenticate with a WordPress application password (advertised by the discovery document
+    at /blog-en/wp-admin/authorize-application.php). HouseSigma does not issue these to third
+    parties; treat this surface as read-only.
+  observed: GET /blog-en/wp-json/wp/v2/settings
+  example: examples/housesigma-blog-content-error-401-rest_forbidden.json
+- code: rest_block_type_cannot_view
+  status: 401
+  title: Sorry, you are not allowed to manage block types.
+  cause: Anonymous request to /wp/v2/block-types, an editor-only route.
+  remediation: Not available to third parties; excluded from the published OpenAPI.
+  observed: GET /blog-en/wp-json/wp/v2/block-types
+private_backend:
+  note: >-
+    The private, robots-disallowed first-party backend at https://housesigma.com/bkv2/api/
+    uses a different, unrelated envelope -
+    {"status":bool,"data":{"message":""},"error":{"code":int,"message":""},"debug":{...}} -
+    with HTTP 200 on failure and the outcome carried in `status`/`error.code`. Recorded for
+    completeness only. It is undocumented, keyless, and explicitly Disallowed in robots.txt,
+    so it is NOT modelled as an API in apis.yml and no error catalog is asserted for it.

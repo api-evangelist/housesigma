@@ -1,0 +1,75 @@
+generated: '2026-07-26'
+method: searched
+source: >-
+  live probes of housesigma.com, status.housesigma.com and the wp-json discovery document,
+  2026-07-26; cross-checked against review.yml
+summary: >-
+  HouseSigma runs no API lifecycle program. There is no developer portal, no versioning policy,
+  no deprecation policy, no SLA, and no status page - which is the expected posture for a
+  company that publishes no API. What lifecycle signal exists is inherited from the platforms
+  underneath: the WordPress REST namespace version on the blog, and the internal build string
+  the private backend discloses.
+
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  policy_url: null
+  detail: >-
+    The only versioned public surface is the WordPress REST namespace (/wp-json/wp/v2/).
+    HouseSigma does not author or govern it; it moves when WordPress core moves. No public
+    version policy, no negotiation header, no announced version window.
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    No RFC 8594 Sunset header and no Deprecation header were observed on any response. No
+    deprecation policy page exists. No operation in
+    openapi/housesigma-blog-content-openapi.yml is marked deprecated.
+
+sla:
+  url: null
+  published: false
+  uptime_target: null
+  detail: No service level agreement, uptime commitment, or support-response target is published.
+
+status_page:
+  url: null
+  published: false
+  detail: >-
+    status.housesigma.com does not resolve in DNS (curl exit 6). No Statuspage, Better Stack,
+    Instatus or equivalent was found, and no status link appears in the site footer, the
+    llms.txt, or the blog.
+
+support:
+  contact_url: https://housesigma.com/blog-en/contact-us/
+  faq_url: https://housesigma.com/blog-en/faq/
+  detail: Consumer support only - a contact form and an FAQ archive. No developer support channel.
+
+change_communication:
+  changelog_url: null
+  release_notes_url: null
+  detail: >-
+    No dated changelog or release-notes feed exists for any HouseSigma surface. The
+    market-analysis blog at /blog-en/ is editorial content, not a product changelog, and is
+    recorded as Blog/BlogRSS rather than ChangeLog. No changelog/ artifact is emitted because
+    there is nothing to capture.
+
+observed_build_strings:
+- surface: https://housesigma.com/bkv2/api/
+  value: v5.38.197
+  field: debug.API
+  environment: production
+  note: >-
+    Self-disclosed by the private, robots-disallowed first-party backend. Evidence that the
+    backend is versioned internally; not a public, contracted, or supported version.
+- surface: https://housesigma.com/blog-en/
+  value: WordPress 5.9.1
+  field: generator meta tag
+  note: >-
+    The blog host runs WordPress 5.9.1 on PHP 7.4.33 - both well past end of life, which is a
+    maintenance-posture observation rather than an API lifecycle commitment.
+
+deprecated_operations: []

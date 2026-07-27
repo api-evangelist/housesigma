@@ -1,0 +1,128 @@
+generated: '2026-07-26'
+method: derived
+source: >-
+  openapi/housesigma-blog-content-openapi.yml plus live request/response headers captured from
+  https://housesigma.com/blog-en/wp-json/ on 2026-07-26
+api: HouseSigma Blog Content API
+scope: >-
+  These conventions describe the ONE public, anonymously callable HTTP surface HouseSigma
+  operates - the WordPress REST API behind housesigma.com/blog-en. They are the conventions
+  of WordPress core (wp/v2), observed live on HouseSigma's host, not a contract HouseSigma
+  authors or publishes. The company's real product backend (/bkv2/api/) is private and
+  robots-disallowed; no conventions are asserted for it.
+
+authentication:
+  style: none-for-reads
+  detail: >-
+    Every operation modelled in the OpenAPI answers anonymously over HTTPS with no key, token,
+    header, or cookie. The discovery document advertises WordPress application passwords
+    (HTTP Basic) at /blog-en/wp-admin/authorize-application.php for write methods and
+    editor-only routes, but HouseSigma issues no such credentials to third parties.
+  artifact: authentication/housesigma-authentication.yml
+
+idempotency:
+  supported: false
+  detail: >-
+    No idempotency key header, parameter, or retention window exists. The public surface is
+    read-only (the collections answer `Allow: GET` anonymously), so idempotency is a property
+    of the HTTP method alone - every modelled operation is a safe, naturally idempotent GET.
+    No `Idempotency` pointer is emitted in apis.yml because there is no idempotency contract
+    to point at.
+
+pagination:
+  style: page-number
+  request:
+    page: 1-based page index, integer, default 1, minimum 1.
+    per_page: page size, integer, default 10, minimum 1, maximum 100.
+    offset: optional absolute offset, integer, applied instead of page.
+  response_headers:
+    X-WP-Total: total number of matching items across all pages.
+    X-WP-TotalPages: total number of pages at the current per_page.
+    Link: RFC 8288 links with rel="next" / rel="prev".
+  cors_note: >-
+    X-WP-Total, X-WP-TotalPages and Link are named in Access-Control-Expose-Headers, so
+    browser clients can read them cross-origin.
+  observed: 'GET /wp/v2/posts?per_page=1 -> x-wp-total: 105, x-wp-totalpages: 105, link rel="next"'
+  applies_to: [listPosts, listPages, listMedia, listCategories, listTags, listUsers, listComments, search]
+
+filtering_and_sorting:
+  search: full-text `search` parameter on every collection.
+  ordering: '`order` (asc|desc) plus `orderby`, whose enum varies per collection.'
+  date_windows: 'before / after / modified_before / modified_after (ISO 8601 date-time).'
+  set_membership: include[] / exclude[] by id; slug[] by slug.
+  taxonomy_filters: 'categories, categories_exclude, tags, tags_exclude, tax_relation (AND|OR) on posts.'
+  note: >-
+    Exact parameter sets, types, defaults and bounds per operation are carried in the OpenAPI,
+    copied verbatim from the live route-discovery document.
+
+field_shaping:
+  context:
+    detail: >-
+      `context` (view|embed|edit) is the response-shaping control. `view` is the default and
+      returns the full public representation; `embed` returns the reduced representation used
+      in _embedded payloads; `edit` requires authentication and is unavailable anonymously.
+  embedding:
+    detail: >-
+      `_embed` / `_fields` are WordPress-core query controls available on these routes:
+      `_embed` inlines linked resources (author, featured media, terms) under `_embedded`,
+      and `_fields` restricts the response to a comma-separated allow-list of properties.
+      They are not enumerated in the discovery document's per-route args but are core to the
+      wp/v2 contract.
+  hypermedia:
+    detail: >-
+      Every resource carries a `_links` object of HAL-style relations (self, collection,
+      about, author, replies, wp:term, wp:featuredmedia, curies), which is the primary way
+      to traverse from a post to its author, media and taxonomy terms.
+
+versioning:
+  scheme: uri-path-namespace
+  current: wp/v2
+  detail: >-
+    The version is a path namespace (`/wp-json/wp/v2/...`). The discovery document advertises
+    eight namespaces - oembed/1.0, basepress_kb/v1, contact-form-7/v1, saswp-output, yoast/v1,
+    wp/v2, wp-site-health/v1, wp-block-editor/v1 - of which only wp/v2 and oembed/1.0 are
+    anonymously readable. No date-based or header-based versioning. No version negotiation
+    header is offered.
+  platform_version: WordPress 5.9.1 (from the blog's generator meta tag, 2026-07-26)
+  artifact: lifecycle/housesigma-lifecycle.yml
+
+error_envelope:
+  media_type: application/json
+  shape: '{code, message, data:{status, params?, details?}}'
+  rfc9457: false
+  detail: >-
+    Failures are NOT application/problem+json. A stable string `code` is the machine-readable
+    identifier; the HTTP status is echoed at `data.status`; validation failures add
+    `data.params` and `data.details`.
+  artifact: errors/housesigma-problem-types.yml
+
+request_tracing:
+  supported: false
+  detail: >-
+    No request-id, correlation-id, or trace header is returned. The only non-standard response
+    header observed is `x-info: public page`, which is a cache/route marker rather than a
+    trace identifier.
+
+rate_limiting:
+  documented: false
+  signalled: false
+  detail: >-
+    No rate-limit headers (X-RateLimit-*, RateLimit-*, Retry-After) were returned on any
+    successful or failing request, and HouseSigma publishes no rate-limit policy for this
+    surface. Absence of a signal is not permission to hammer it: this is an undocumented
+    consumer blog host, and callers should self-throttle.
+
+transport_and_cors:
+  https: required (TLS 1.3 observed; see security/housesigma-domain-security.yml)
+  hsts: false
+  cors:
+    access_control_expose_headers: [X-WP-Total, X-WP-TotalPages, Link]
+    access_control_allow_headers: [Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type]
+  content_type: application/json; charset=UTF-8
+  robots: 'x-robots-tag: noindex on API responses'
+  security_headers:
+    x_content_type_options: nosniff
+
+conditional_requests:
+  supported: false
+  detail: No ETag or Last-Modified was returned on the collection or item responses probed.

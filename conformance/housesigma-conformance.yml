@@ -1,0 +1,115 @@
+generated: '2026-07-26'
+method: derived
+source: >-
+  openapi/housesigma-blog-content-openapi.yml, live headers/responses from
+  https://housesigma.com/blog-en/wp-json/, review.yml, and the RESO Canadian membership roster
+scope: >-
+  Conformance is asserted only for the public Blog Content API and for HouseSigma's
+  sector-standard posture. Nothing is asserted for the private /bkv2/api/ backend, which
+  publishes no contract.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: >-
+    openapi/housesigma-blog-content-openapi.yml is OpenAPI 3.1.0 - DERIVED by API Evangelist
+    from HouseSigma's live route-discovery document, not published by HouseSigma.
+  published_by_provider: false
+- id: rest
+  conforms: true
+  evidence: Resource-oriented JSON over HTTPS with GET semantics and standard status codes.
+- id: rfc8288-web-linking
+  conforms: true
+  evidence: 'Collection responses return a Link header with rel="next" / rel="prev".'
+- id: hal-style-hypermedia
+  conforms: partial
+  evidence: >-
+    Resources carry a _links object with self/collection/about/author/replies/wp:term
+    relations and curies. WordPress's own convention rather than strict HAL media typing -
+    the media type is application/json, not application/hal+json.
+- id: oembed-1.0
+  conforms: true
+  evidence: >-
+    /oembed/1.0/embed returns a valid oEmbed 1.0 rich response with version, provider_name
+    "HouseSigma", type, width, height, html and thumbnail_url. Captured at
+    examples/housesigma-blog-content-getOembed-200.json.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are application/json in the WordPress envelope {code,message,data.status}, not
+    application/problem+json. See errors/housesigma-problem-types.yml.
+- id: cors
+  conforms: true
+  evidence: >-
+    Access-Control-Expose-Headers advertises X-WP-Total, X-WP-TotalPages and Link;
+    Access-Control-Allow-Headers advertises Authorization, X-WP-Nonce, Content-Disposition,
+    Content-MD5 and Content-Type.
+- id: http-basic-rfc7617
+  conforms: true
+  evidence: >-
+    The discovery document advertises WordPress application passwords over HTTP Basic for
+    write methods. Not issued to third parties; all modelled operations are anonymous.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No OAuth 2.0 surface. /.well-known/oauth-authorization-server and
+    /.well-known/oauth-protected-resource both return 404.
+- id: openid-connect
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on both housesigma.com and api.housesigma.com.
+- id: rfc9727-api-catalog
+  conforms: false
+  evidence: /.well-known/api-catalog returns 404.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset or Deprecation header observed on any response.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No event, streaming, or webhook surface exists on any HouseSigma host. Not applicable
+    rather than deficient.
+- id: graphql
+  conforms: false
+  evidence: >-
+    https://housesigma.com/graphql returns the 4,971-byte Vue SPA shell, not a GraphQL
+    endpoint. No introspection surface.
+- id: odata-4.0
+  conforms: false
+  evidence: 'https://housesigma.com/$metadata returns the SPA shell; HouseSigma is not an OData service.'
+- id: reso-web-api
+  conforms: false
+  evidence: >-
+    HouseSigma is not RESO-certified and is not among the 19 Canadian organizations on RESO's
+    published Canadian membership roster (https://www.reso.org/canadian-membership/, HTTP 200,
+    2026-07-26). No RESO/OData endpoint, no $metadata, no Data Dictionary certification.
+- id: reso-data-dictionary
+  conforms: false
+  evidence: No Data Dictionary version claimed or observed.
+- id: reso-upi
+  conforms: false
+  evidence: No Universal Property Identifier usage observed on any HouseSigma host.
+- id: hsts
+  conforms: false
+  evidence: >-
+    No Strict-Transport-Security header on housesigma.com. See
+    security/housesigma-domain-security.yml.
+- id: dnssec
+  conforms: false
+  evidence: housesigma.com is not DNSSEC-signed.
+- id: dmarc
+  conforms: partial
+  evidence: 'DMARC record present with p=none (monitor only); SPF present; no CAA records.'
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  detail: >-
+    No trust centre, no compliance page, and no named certification (SOC 2, ISO 27001, PCI DSS,
+    HIPAA, FedRAMP, CSA STAR) is published. trust.housesigma.com does not resolve. Because no
+    compliance program is published, NO `Compliance` pointer is emitted in apis.yml.
+  privacy_note: >-
+    HouseSigma does publish a consumer Privacy Policy and Terms of Use (both linked from
+    apis.yml), and as a Canadian brokerage operates under PIPEDA and provincial real estate
+    regulation, but it makes no published certification or attestation claim.

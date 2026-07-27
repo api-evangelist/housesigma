@@ -1,0 +1,49 @@
+generated: '2026-07-26'
+method: searched
+source: live HTTP probes of the /.well-known/ surface, 2026-07-26
+host: https://housesigma.com
+note: >-
+  HouseSigma serves no security, identity, or API-discovery documents under /.well-known/ -
+  every RFC 9116 / RFC 8414 / OIDC / api-catalog / ai-plugin probe returned an nginx 404 with
+  a 146-byte body. The only two documents present are the mobile deep-link association files
+  for the iOS and Android apps, which is consistent with a consumer product that has no
+  developer program. The 404s are recorded here as negative evidence, not as gaps to fill.
+documents:
+- path: /.well-known/apple-app-site-association
+  status: 200
+  file: housesigma-apple-app-site-association.json
+  standard: Apple Universal Links
+  note: >-
+    Declares three app IDs under team P5WDG52H57 (com.housesigma.ios plus apptest/appdev) and
+    the deep-link path components /app/*, /web/*, /on/*, /bc/*, /ab/*, /home/*, /user/*,
+    /listings/* and the /bkv2/landing/rootpage/{listing,estimate,market,precon} landing routes.
+- path: /.well-known/assetlinks.json
+  status: 200
+  file: housesigma-assetlinks.json
+  standard: Android App Links (Digital Asset Links)
+  note: >-
+    delegate_permission/common.handle_all_urls for the Android package com.housesigma.android.
+- path: /.well-known/security.txt
+  status: 404
+  standard: RFC 9116
+- path: /.well-known/openid-configuration
+  status: 404
+  standard: OpenID Connect Discovery 1.0
+- path: /.well-known/oauth-authorization-server
+  status: 404
+  standard: RFC 8414
+- path: /.well-known/oauth-protected-resource
+  status: 404
+  standard: RFC 9728
+- path: /.well-known/api-catalog
+  status: 404
+  standard: RFC 9727
+- path: /.well-known/ai-plugin.json
+  status: 404
+  standard: OpenAI plugin manifest (deprecated)
+other_hosts:
+- host: https://api.housesigma.com
+  note: >-
+    Resolves and is served by nginx, but every path probed - including / , /openapi.json,
+    /swagger.json, /docs and /.well-known/security.txt - returns a plain nginx 404. No
+    discovery surface.

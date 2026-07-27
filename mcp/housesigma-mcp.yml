@@ -1,0 +1,96 @@
+generated: '2026-07-26'
+method: derived
+status: candidate
+source: openapi/housesigma-blog-content-openapi.yml
+search_result: >-
+  No official or third-party HouseSigma MCP server exists. Searched the docs surface (there is
+  none), the GitHub organization https://github.com/housesigma (four public repos - openmaptiles
+  fork, hr-interview, atlas, listing-chatbot-design - none MCP-related), npm (zero packages
+  matching housesigma), PyPI, RubyGems, crates.io and Packagist (all zero). No mcp.housesigma.com
+  host, no /.well-known/oauth-protected-resource, no MCP registry entry.
+pointer_note: >-
+  DELIBERATELY NOT WIRED as `type: MCPServer` in apis.yml. HouseSigma operates no MCP server;
+  this file is a candidate tool design derived from the public Blog Content API so that a
+  future round has a grounded starting point. Emitting an MCPServer pointer for a server that
+  does not exist would award the apis.io agent-readiness and ergonomics MCP checks for nothing
+  real. Promote the pointer only if HouseSigma (or a credible third party) actually ships one.
+server:
+  name: housesigma-blog-content
+  transport: http
+  url: null
+  auth: none required - every backing operation is anonymous over HTTPS
+scope_note: >-
+  Tools cover ONLY the public WordPress-backed Blog Content API. HouseSigma's listings, sold
+  history and SigmaEstimate valuations are not exposed by any public API and therefore cannot
+  be modelled as tools without fabrication.
+tools:
+- name: list_posts
+  description: List HouseSigma Canadian housing-market blog posts, with search, date-window, taxonomy and ordering filters.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listPosts
+- name: get_post
+  description: Retrieve a single blog post by id, including rendered title, content and excerpt.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getPost
+- name: list_pages
+  description: List static pages such as About US, FAQs, Contact Us, Terms of Use and Privacy Policy.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listPages
+- name: get_page
+  description: Retrieve a single page by id.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getPage
+- name: list_media
+  description: List media items (charts, infographics, market images) attached to blog content.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listMedia
+- name: get_media_item
+  description: Retrieve a media item by id, including source_url and media_details.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getMediaItem
+- name: list_categories
+  description: List blog categories (market areas and content themes) with post counts.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listCategories
+- name: get_category
+  description: Retrieve a category by id.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getCategory
+- name: list_tags
+  description: List blog tags with post counts.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listTags
+- name: get_tag
+  description: Retrieve a tag by id.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getTag
+- name: list_users
+  description: List published blog authors.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listUsers
+- name: get_user
+  description: Retrieve a blog author by id.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getUser
+- name: list_comments
+  description: List approved comments.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listComments
+- name: get_comment
+  description: Retrieve a comment by id.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getComment
+- name: search_content
+  description: Full-text search across published HouseSigma blog posts and pages.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#search
+- name: list_taxonomies
+  description: List registered taxonomies and their rest_base values.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listTaxonomies
+- name: get_taxonomy
+  description: Retrieve a taxonomy by slug.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getTaxonomy
+- name: list_types
+  description: List registered content types.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listTypes
+- name: get_type
+  description: Retrieve a content type by slug.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getType
+- name: list_statuses
+  description: List post statuses.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#listStatuses
+- name: get_status
+  description: Retrieve a post status by slug.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getStatus
+- name: get_oembed
+  description: Retrieve the oEmbed 1.0 rich representation (embeddable iframe HTML plus thumbnail) for a HouseSigma blog URL.
+  source_operation: openapi/housesigma-blog-content-openapi.yml#getOembed
+coverage:
+  rest_operations: 22
+  tools_derived: 22
+  tools_published: 0

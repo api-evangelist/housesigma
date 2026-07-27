@@ -1,0 +1,15 @@
+generated: '2026-07-26'
+method: derived
+source: openapi/housesigma-blog-content-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: applicationPassword
+  type: http
+  scheme: basic
+  description: WordPress application passwords, advertised by the live discovery document at
+    https://housesigma.com/blog-en/wp-admin/authorize-application.php. Required only for write
+    methods and for routes excluded from this document; every operation modelled here is anonymous.
+  sources:
+  - openapi/housesigma-blog-content-openapi.yml

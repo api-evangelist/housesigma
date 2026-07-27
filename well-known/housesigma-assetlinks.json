@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.housesigma.android",
+            "sha256_cert_fingerprints": [
+                "F9:36:E6:CD:E5:9A:CC:DB:9D:68:D2:15:8B:77:BD:02:8A:A9:7B:38:DA:CE:19:D9:9C:73:CB:6B:0D:CB:81:EE"
+            ]
+        }
+    }
+]

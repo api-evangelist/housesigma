@@ -1,0 +1,63 @@
+{
+  "applinks": {
+      "details": [
+           {
+             "appIDs": [ "P5WDG52H57.com.housesigma.apptest", "P5WDG52H57.com.housesigma.appdev", "P5WDG52H57.com.housesigma.ios" ],
+             "components": [
+               {
+                 "/": "/app/*",
+                 "comment": "Matches any URL whose path starts with /app/"
+               },
+               {
+                 "/": "/web/*",
+                 "comment": "Matches any URL whose path starts with /web/"
+               },
+               {
+                 "/": "/bkv2/landing/rootpage/listing/*",
+                 "comment": "landing page for listings"
+               },
+               {
+                 "/": "/bkv2/landing/rootpage/estimate",
+                 "comment": "landing page for estimate"
+               },
+               {
+                 "/": "/bkv2/landing/rootpage/market",
+                 "comment": "landing page for market"
+               },
+               {
+                 "/": "/bkv2/landing/download",
+                 "comment": "Download App"
+               },
+               {
+                 "/": "/on/*",
+                 "comment": "Ontario"
+               },
+               {
+                 "/": "/bc/*",
+                 "comment": "British Columbia"
+               },
+               {
+                 "/": "/ab/*",
+                 "comment": "Alberta"
+               },
+               {
+                 "/": "/home/*",
+                 "comment": "home"
+               },
+               {
+                 "/": "/user/*",
+                 "comment": "user"
+               },
+               {
+                 "/": "/listings/*",
+                 "comment": "listings"
+               },
+               {
+   		 "/": "/bkv2/landing/rootpage/precon/*",
+   		 "comment": "landing page for precon projects"
+	       }
+             ]
+           }
+       ]
+   }
+}

@@ -2,26 +2,28 @@ aid: housesigma
 url: https://raw.githubusercontent.com/api-evangelist/housesigma/refs/heads/main/apis.yml
 name: HouseSigma
 kind: company
-description: HouseSigma, Inc. Brokerage is a Toronto-based Canadian residential real estate
-  portal and licensed brokerage that pairs map-based MLS listing search with sold-price history
-  and machine-learning home valuations across Ontario, British Columbia, and Alberta. It sits
-  in the challenger layer of the Canadian value chain, below CREA, which operates REALTOR.ca
-  and the national Data Distribution Facility (DDF) that syndicates member boards' listings,
-  and alongside Wahi, Zolo, and Properly, competing on visibility into data the boards control,
-  a position it won in part through the Competition Bureau litigation that forced TRREB to
-  release sold data in 2018. Its API posture is closed. There is no developer portal, no published
-  API program, and no partner or data-licensing page. The subdomains developer., developers.,
-  and docs.housesigma.com do not resolve in DNS, and /developers, /api, /api-docs, /openapi.json
-  and /swagger.json all return the single-page-application shell rather than any contract.
-  The only machine surface is housesigma.com/bkv2/api/, the private backend that powers the
-  web and mobile apps, which the site's own robots.txt explicitly disallows to all crawlers
-  and which publishes no documentation, terms, keys, or versioned contract. RESO is absent.
-  HouseSigma does not appear among the Canadian organizations RESO lists as members, and no
-  Web API or Data Dictionary certification, OData $metadata document, or Universal Property
-  Identifier usage was found. No open, unlicensed dataset is published. The underlying listing
-  and sold data is board-licensed and reaches HouseSigma through its own brokerage membership,
-  not through anything a third-party developer can sign up for.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/groq.png
+description: 'HouseSigma, Inc. Brokerage is a Toronto-based Canadian residential real estate portal
+  and licensed brokerage that pairs map-based MLS listing search with sold-price history and machine-learning
+  home valuations (SigmaEstimate) across Ontario, British Columbia, and Alberta. It sits in the challenger
+  layer of the Canadian value chain, below CREA, which operates REALTOR.ca and the national Data
+  Distribution Facility (DDF) that syndicates member boards'' listings, and alongside Wahi, Zolo,
+  and Properly, competing on visibility into data the boards control, a position it won in part through
+  the Competition Bureau litigation that forced TRREB to release sold data in 2018. Its API posture
+  is closed. There is no developer portal, no published API program, and no partner or data-licensing
+  page; developer., developers., and docs.housesigma.com do not resolve in DNS, and /developers,
+  /api, /api-docs, /openapi.json and /swagger.json all return the single-page-application shell rather
+  than any contract. The listing, sold-history and valuation backend at housesigma.com/bkv2/api/
+  is private, keyless, undocumented, and explicitly disallowed to all crawlers in robots.txt. The
+  one genuinely public, anonymously callable, machine-readable HTTP surface the company operates
+  is the WordPress REST API behind housesigma.com/blog-en, which serves its Canadian housing-market
+  analysis blog as JSON across 157 advertised routes; API Evangelist derived an OpenAPI for the 22
+  operations verified to answer anonymously. HouseSigma also publishes a real llms.txt and mobile
+  deep-link association documents. RESO is absent: HouseSigma is not among the Canadian organizations
+  RESO lists as members, and no Web API or Data Dictionary certification, OData $metadata document,
+  or Universal Property Identifier usage was found. No open, unlicensed dataset is published. The
+  underlying listing and sold data is board-licensed and reaches HouseSigma through its own brokerage
+  membership, not through anything a third-party developer can sign up for.'
+image: https://housesigma.com/apple-touch-icon.png?v=2
 tags:
 - Real Estate
 - Canada
@@ -31,11 +33,58 @@ tags:
 - AVM
 - PropTech
 - Rentals
+- Blog
+- Content
+- WordPress
+- oEmbed
+- Ontario
+- British Columbia
+- Toronto
 created: '2026-07-26'
 modified: '2026-07-26'
 specificationVersion: '0.19'
-apis: []
+apis:
+- name: HouseSigma Blog Content API
+  description: 'The public, read-only WordPress REST API (wp/v2) behind housesigma.com/blog-en, which
+    serves HouseSigma''s Canadian housing-market analysis blog as JSON. This is the only anonymously
+    callable, machine-readable HTTP surface HouseSigma operates: 157 routes across 8 namespaces are
+    advertised by the live route-discovery document at https://housesigma.com/blog-en/wp-json/ (HTTP
+    200), of which 22 GET operations - posts, pages, media, categories, tags, authors, comments,
+    search, the type/taxonomy/status registry, and oEmbed - were verified to answer without credentials.
+    Page-number pagination with X-WP-Total / X-WP-TotalPages / RFC 8288 Link headers; errors use
+    the WordPress {code,message,data.status} envelope rather than RFC 9457. It is NOT an official
+    HouseSigma developer product: the company documents, supports and issues keys for nothing, and
+    its listing, sold-price and SigmaEstimate valuation data is served only by the private, robots-disallowed
+    /bkv2/api/ backend, which is deliberately not listed here.'
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - Blog
+  - Content
+  - Real Estate
+  - Canada
+  - WordPress
+  - oEmbed
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-blog-content-openapi.yml
+  - type: Overlay
+    url: overlays/housesigma-blog-content-overlay.yaml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
 common:
+- type: AgenticAccess
+  url: agentic-access/housesigma-agentic-access.yml
+- type: DomainSecurity
+  url: security/housesigma-domain-security.yml
+- type: Authentication
+  url: authentication/housesigma-authentication.yml
 - type: Website
   url: https://housesigma.com/
 - type: Blog
@@ -46,6 +95,48 @@ common:
   url: https://github.com/housesigma
 - type: LinkedIn
   url: https://www.linkedin.com/company/housesigma
+- type: LLMsTxt
+  url: llms/housesigma-llms.txt
+- type: WellKnown
+  url: well-known/housesigma-well-known.yml
+- type: Conventions
+  url: conventions/housesigma-conventions.yml
+- type: ErrorCatalog
+  url: errors/housesigma-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/housesigma-lifecycle.yml
+- type: Conformance
+  url: conformance/housesigma-conformance.yml
+- type: DataModel
+  url: data-model/housesigma-data-model.yml
+- type: Components
+  url: components/housesigma-components.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Examples
+  url: examples/
+- type: Overlay
+  url: overlays/housesigma-blog-content-overlay.yaml
+- type: TermsOfService
+  url: https://housesigma.com/blog-en/2018/04/25/terms-of-use/
+- type: PrivacyPolicy
+  url: https://housesigma.com/blog-en/2018/04/25/privacy-policy/
+- type: Support
+  url: https://housesigma.com/blog-en/contact-us/
+- type: FAQ
+  url: https://housesigma.com/blog-en/faq/
+- type: About
+  url: https://housesigma.com/blog-en/about-us/
+- type: Careers
+  url: https://team.housesigma.com/
+- type: iOSApp
+  url: https://itunes.apple.com/ca/app/toronto-real-estate-housesigma/id1255490256?mt=8
+- type: AndroidApp
+  url: https://play.google.com/store/apps/details?id=com.housesigma.android&hl=en_CA
+- type: Facebook
+  url: https://www.facebook.com/housesigma/
+- type: Instagram
+  url: https://www.instagram.com/housesigma/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

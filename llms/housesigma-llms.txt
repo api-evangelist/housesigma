@@ -1,0 +1,34 @@
+# HouseSigma
+ 
+> HouseSigma is a Canadian real estate technology platform, listings portal, and brokerage that helps people buy, sell, and track real estate in Canada. It was the first platform in Canada to make sold home prices publicly available and uses proprietary data and AI to help people make more informed real estate decisions.
+ 
+HouseSigma is available through its [website](https://housesigma.com/) and mobile app ([Apple](https://itunes.apple.com/ca/app/toronto-real-estate-housesigma/id1255490256?mt=8), [Android](https://play.google.com/store/apps/details?id=com.housesigma.android&hl=en_CA)). Users can browse homes for sale, view sold prices, track market trends, estimate home values, and research neighbourhoods and properties in detail. HouseSigma has more than two million registered users, over five million monthly web visits, and a Trustpilot rating of 4.9/5.
+ 
+HouseSigma is for people in Canada who want to buy a home, sell a home, track a home's value, research the housing market, or browse real estate listings with more data and context. It is designed for home buyers, sellers, homeowners, investors, and people interested in local market trends, sold prices, neighbourhood insights, and property research.
+ 
+Core features include: real estate listings and homes for sale in Ontario, British Columbia, and Alberta; home search by address, street name, or listing number; map-based search; sold history and listing history for properties; saved searches, watched listings, and alerts; market trends and housing market data filterable by neighbourhood and home type; AI-powered home valuation insights (SigmaEstimate); price prediction and market direction insights; curated discovery sections (newly listed, featured, best for schools, best for rental investment, high growth, high returns, sold below bought, exclusive assignments); agent directory; and brokerage services.
+ 
+Individual listing pages show: listing and sold history with links to past listing pages and previous photos; price-change history; days on market and property days on market; agent's listing description and a fact-based AI summary; SigmaEstimate AI-powered home valuation; estimated rental income and rental yield; mortgage calculator; cash-flow analysis calculator for investors; personal notes for signed-in users; nearby comparable homes; listing popularity index; local area market trends by home type; local schools with individual school scores; expert HouseSigma agents in the area; neighbourhood scores (Schools, Growth, Rental); and neighbourhood demographics from Statistics Canada with interactive charts.
+ 
+## Real Estate Listings
+ 
+- [Homepage](https://housesigma.com/): Main HouseSigma homepage for browsing homes, market data, and real estate tools
+- [Ontario Listings](https://housesigma.com/on/): Homes for sale in Ontario
+- [British Columbia Listings](https://housesigma.com/bc/): Homes for sale in British Columbia
+- [Alberta Listings](https://housesigma.com/ab/): Homes for sale in Alberta
+- [Ontario Map Search](https://housesigma.com/on/map/): Map-based property search in Ontario
+- [British Columbia Map Search](https://housesigma.com/bc/map/): Map-based property search in British Columbia
+- [Alberta Map Search](https://housesigma.com/ab/map/): Map-based property search in Alberta
+ 
+## HTML Sitemaps
+ 
+- [Ontario](https://housesigma.com/on/sitemap/)
+- [British Columbia](https://housesigma.com/bc/sitemap/)
+- [Alberta](https://housesigma.com/ab/sitemap/)
+ 
+## Optional
+ 
+- [About HouseSigma](https://housesigma.com/blog-en/about-us/): Company background and history
+- [FAQs](https://housesigma.com/blog-en/faq/): Frequently asked questions
+- [Contact Us](https://housesigma.com/blog-en/contact-us/): How to reach HouseSigma
+- [Careers](https://team.housesigma.com/): Job opportunities at HouseSigma

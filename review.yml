@@ -4,6 +4,18 @@ review:
   question: Does HouseSigma publish a public, documented API — and what is its RESO posture?
   answer: false
   date: '2026-07-26'
+  revised: '2026-07-26'
+  revisionNote: >-
+    Enrichment round revised two findings from the first pass. (1) HouseSigma DOES publish a
+    real llms.txt at https://housesigma.com/llms.txt (HTTP 200, 3,833 bytes) — an agent-facing
+    document describing the product, its Ontario/BC/Alberta coverage, and its core features.
+    (2) There IS one public, anonymously callable, machine-readable HTTP surface: the WordPress
+    REST API behind https://housesigma.com/blog-en/wp-json/ (HTTP 200), whose live
+    route-discovery document advertises 157 routes across 8 namespaces. 22 GET operations were
+    verified to answer without credentials and an OpenAPI 3.1 was DERIVED from that document.
+    The headline answer is unchanged — HouseSigma publishes no *documented developer API*, and
+    the blog surface is incidental WordPress core rather than a product — but "no
+    machine-readable contract of any kind" was too strong.
   reviewer: API Evangelist
   homeMarket: Canada
   tier: portal-marketplace
@@ -70,7 +82,9 @@ sectorPosture:
     (access-control-allow-credentials: true) consistent with first-party cookie/session
     auth for its own apps, but nothing about it is documented or offered externally.
   webhooksEventsSdksPostman: >-
-    None found. No webhook or event documentation, no published SDK, no Postman
+    None found. No webhook or event documentation, no AsyncAPI, no event catalog, and no
+    callback surface on any host. No published SDK — npm, PyPI, RubyGems, crates.io and
+    Packagist all return zero packages matching "housesigma". No Postman
     workspace or collection. The GitHub organization https://github.com/housesigma
     (HTTP 200) exists with four public repositories — openmaptiles (a fork of the
     OpenMapTiles vector tile schema), hr-interview, atlas (TypeScript), and
@@ -114,7 +128,13 @@ findings:
   developerPortal: none
   developerPortalConfirmed: false
   openapiHarvested: false
-  specsCount: 0
+  openapiDerived: true
+  specsCount: 1
+  specsNote: >-
+    Zero specifications are PUBLISHED by HouseSigma. One OpenAPI 3.1.0 (22 operations) was
+    DERIVED by API Evangelist from the live WordPress route-discovery document at
+    https://housesigma.com/blog-en/wp-json/ and saved to
+    openapi/housesigma-blog-content-openapi.yml. It covers the blog content surface only.
   gated: true
   gateType: none-published
 
@@ -203,6 +223,72 @@ probes:
     status: 200
     note: Directory returned no usable content anonymously; sub-paths /organizations, /api/organizations, /data/organizations.json all returned HTTP 400 with empty bodies.
 
+  - url: https://housesigma.com/llms.txt
+    status: 200
+    note: >-
+      REAL llms.txt, 3,833 bytes — missed by the first pass. Agent-facing product description
+      with sections for Real Estate Listings, HTML Sitemaps, and Optional (About, FAQs, Contact,
+      Careers). States 2M+ registered users, 5M+ monthly web visits, Trustpilot 4.9/5. Saved
+      verbatim to llms/housesigma-llms.txt.
+  - url: https://housesigma.com/blog-en/wp-json/
+    status: 200
+    note: >-
+      WordPress REST route-discovery document, 195,879 bytes. Advertises 157 routes across 8
+      namespaces (wp/v2, oembed/1.0, basepress_kb/v1, contact-form-7/v1, saswp-output, yoast/v1,
+      wp-site-health/v1, wp-block-editor/v1) and application-password auth at
+      /blog-en/wp-admin/authorize-application.php. Saved to
+      discovery/housesigma-blog-wp-json-index.json; OpenAPI derived from it.
+  - url: https://housesigma.com/blog-en/wp-json/wp/v2/posts?per_page=1
+    status: 200
+    note: >-
+      Anonymous read confirmed. Returns x-wp-total 105, x-wp-totalpages 105, a Link rel="next"
+      header, and "allow: GET". Server nginx, PHP/7.4.33, WordPress 5.9.1.
+  - url: https://housesigma.com/blog-en/wp-json/wp/v2/settings
+    status: 401
+    note: 'rest_forbidden — editor-only routes are gated; excluded from the derived OpenAPI.'
+  - url: https://housesigma.com/.well-known/apple-app-site-association
+    status: 200
+    note: >-
+      Apple Universal Links. Team P5WDG52H57; bundles com.housesigma.ios/.apptest/.appdev; deep
+      links for /on/*, /bc/*, /ab/*, /home/*, /user/*, /listings/* and the /bkv2/landing/rootpage
+      listing, estimate, market and precon routes.
+  - url: https://housesigma.com/.well-known/assetlinks.json
+    status: 200
+    note: Android App Links for package com.housesigma.android.
+  - url: https://housesigma.com/.well-known/oauth-authorization-server
+    status: 404
+    note: No RFC 8414 metadata.
+  - url: https://housesigma.com/.well-known/oauth-protected-resource
+    status: 404
+    note: No RFC 9728 metadata.
+  - url: https://housesigma.com/.well-known/api-catalog
+    status: 404
+    note: No RFC 9727 API catalog.
+  - url: https://housesigma.com/graphql
+    status: 200
+    note: Soft-200 SPA shell, not a GraphQL endpoint. No introspection surface.
+  - url: https://api.housesigma.com/openapi.json
+    status: 404
+    note: 'Probed the API host root directly per contract-discovery: nginx 404. Same for /swagger.json, /docs, /.well-known/security.txt.'
+  - url: https://status.housesigma.com/
+    status: 000
+    note: DNS does not resolve. No status page.
+  - url: https://trust.housesigma.com/
+    status: 000
+    note: DNS does not resolve. No trust centre; no named certification published anywhere.
+  - url: https://housesigma.com/blog-en/2018/04/25/terms-of-use/
+    status: 200
+    note: Consumer Terms of Use. Wired as TermsOfService in apis.yml.
+  - url: https://housesigma.com/blog-en/2018/04/25/privacy-policy/
+    status: 200
+    note: Consumer Privacy Policy. Wired as PrivacyPolicy in apis.yml.
+  - url: https://team.housesigma.com/
+    status: 200
+    note: Careers site. Wired as Careers in apis.yml.
+  - url: https://registry.npmjs.org/-/v1/search?text=housesigma
+    status: 200
+    note: 'Zero results. PyPI 404, RubyGems/crates.io/Packagist all zero. No first-party SDK exists.'
+
 sources:
   - url: https://housesigma.com/robots.txt
     type: Documentation
@@ -219,10 +305,13 @@ sources:
 
 actions:
   apisYmlCreated: true
-  apisListed: 0
-  openapiDirectoryCreated: false
+  apisListed: 1
+  openapiDirectoryCreated: true
   reason: >-
-    apis[] is deliberately empty. HouseSigma documents no public API, so listing the
-    undocumented, robots-disallowed /bkv2/api/ backend would misrepresent a private
-    implementation detail as a developer product. No specification of any kind was
-    harvested, so no openapi/ directory was created.
+    apis[] lists exactly one entry — the HouseSigma Blog Content API, the public, anonymously
+    callable WordPress REST surface at https://housesigma.com/blog-en/wp-json — with a derived
+    OpenAPI 3.1 covering the 22 operations verified to answer without credentials. The
+    undocumented, robots-disallowed /bkv2/api/ backend remains deliberately unlisted: listing
+    it would misrepresent a private implementation detail as a developer product. No MCPServer
+    pointer is wired either, because HouseSigma operates no MCP server; the candidate tool
+    design in mcp/ is marked status: candidate and left unwired on purpose.

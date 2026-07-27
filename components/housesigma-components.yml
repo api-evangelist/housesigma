@@ -1,0 +1,78 @@
+generated: '2026-07-26'
+method: searched
+source: >-
+  live probes of https://housesigma.com/blog-en/wp-json/oembed/1.0/embed and
+  https://housesigma.com/.well-known/ (apple-app-site-association, assetlinks.json), 2026-07-26
+summary: >-
+  HouseSigma ships no developer-facing UI component library - no web components, no JS element
+  library, no embeddable widget documented for third parties. Two genuine client-side
+  integration surfaces do exist and are captured here: the oEmbed 1.0 embed served by the blog
+  host, and the mobile deep-link (universal link / app link) surface declared under
+  /.well-known/. Both are real and callable; neither is documented or supported as a developer
+  product.
+families:
+- name: oEmbed content embed
+  kind: hosted-iframe
+  status: live-undocumented
+  loader: none - the provider returns ready-to-paste HTML
+  endpoint: https://housesigma.com/blog-en/wp-json/oembed/1.0/embed?url={housesigma-blog-url}
+  operation: openapi/housesigma-blog-content-openapi.yml#getOembed
+  standard: oEmbed 1.0
+  returns:
+    type: rich
+    provider_name: HouseSigma
+    width: 600
+    height: 338
+    html: >-
+      A wp-embedded-content blockquote fallback plus a sandboxed iframe
+      (sandbox="allow-scripts", security="restricted") pointing at
+      {post-url}/embed/#?secret={token}, accompanied by the WordPress receiveEmbedMessage
+      resize script.
+    thumbnail_url: featured image URL for the embedded post
+  discovery: >-
+    Blog pages advertise the endpoint via <link rel="alternate" type="application/json+oembed">
+    and its XML sibling, so any oEmbed-aware consumer can resolve an embed without prior
+    knowledge.
+  example: examples/housesigma-blog-content-getOembed-200.json
+  use_case: >-
+    Embedding a HouseSigma Canadian housing-market analysis post in a third-party page with
+    attribution, title, description and thumbnail.
+- name: Mobile deep links
+  kind: native-app-handoff
+  status: live-undocumented
+  standards: [Apple Universal Links, Android App Links (Digital Asset Links)]
+  documents:
+  - well-known/housesigma-apple-app-site-association.json
+  - well-known/housesigma-assetlinks.json
+  apps:
+    ios:
+      team_id: P5WDG52H57
+      bundle_ids: [com.housesigma.ios, com.housesigma.apptest, com.housesigma.appdev]
+      store: https://itunes.apple.com/ca/app/toronto-real-estate-housesigma/id1255490256?mt=8
+    android:
+      package: com.housesigma.android
+      store: https://play.google.com/store/apps/details?id=com.housesigma.android&hl=en_CA
+  handled_paths:
+  - /app/*
+  - /web/*
+  - /on/*
+  - /bc/*
+  - /ab/*
+  - /home/*
+  - /user/*
+  - /listings/*
+  - /bkv2/landing/rootpage/listing/*
+  - /bkv2/landing/rootpage/estimate
+  - /bkv2/landing/rootpage/market
+  - /bkv2/landing/rootpage/precon/*
+  - /bkv2/landing/download
+  use_case: >-
+    A link to a HouseSigma listing, estimate, market or pre-construction landing page opens
+    the native app when installed. This is the closest thing HouseSigma has to a documented
+    integration contract for partners, and it is machine-readable.
+not_found:
+- web components / custom elements
+- embeddable search or map widget for third-party sites
+- embedded valuation (SigmaEstimate) widget
+- hosted checkout, form, or dashboard components
+- a documented JS loader library on any CDN

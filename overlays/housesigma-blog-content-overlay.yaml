@@ -1,0 +1,81 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the HouseSigma Blog Content API
+  version: 1.0.0
+extends: openapi/housesigma-blog-content-openapi.yml
+x-apievangelist:
+  generated: '2026-07-26'
+  method: generated
+  source: >-
+    API Evangelist enrichment pipeline. Captures the provenance, agent-facing and
+    cross-artifact annotations we add on top of the spec derived from HouseSigma's live
+    WordPress route-discovery document. The underlying OpenAPI is never mutated.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: housesigma
+    x-apievangelist-provider-posture: >-
+      Closed platform. HouseSigma publishes no developer program, no portal, and no
+      documentation for any API. This spec covers the only anonymously callable public HTTP
+      surface the company operates, which is incidental (a WordPress blog) rather than a
+      product.
+    x-apievangelist-spec-provenance: >-
+      Derived from https://housesigma.com/blog-en/wp-json/ (HTTP 200, 2026-07-26). Not
+      published by HouseSigma.
+    x-apievangelist-artifacts:
+      authentication: authentication/housesigma-authentication.yml
+      conventions: conventions/housesigma-conventions.yml
+      errors: errors/housesigma-problem-types.yml
+      lifecycle: lifecycle/housesigma-lifecycle.yml
+      conformance: conformance/housesigma-conformance.yml
+      data-model: data-model/housesigma-data-model.yml
+      agentic-access: agentic-access/housesigma-agentic-access.yml
+      well-known: well-known/housesigma-well-known.yml
+      domain-security: security/housesigma-domain-security.yml
+      llms: llms/housesigma-llms.txt
+      skills: skills/_index.yml
+      examples: examples/
+- target: $.info
+  update:
+    x-apievangelist-read-only: true
+    x-apievangelist-rate-limit-policy: >-
+      None published and none signalled - no X-RateLimit-*, RateLimit-* or Retry-After headers
+      were returned. Callers must self-throttle against an undocumented consumer host.
+    x-apievangelist-error-envelope: >-
+      WordPress REST envelope {code,message,data.status}; NOT RFC 9457 problem+json.
+- target: $.servers[0]
+  update:
+    x-apievangelist-verified: '2026-07-26'
+    x-apievangelist-verified-status: 200
+    x-apievangelist-transport: TLS 1.3, no HSTS
+- target: $.paths['/wp/v2/posts'].get
+  update:
+    x-apievangelist-pagination:
+      style: page-number
+      request: [page, per_page, offset]
+      response_headers: [X-WP-Total, X-WP-TotalPages, Link]
+      max_per_page: 100
+    x-apievangelist-observed-total: 105
+- target: $.paths['/wp/v2/pages'].get
+  update:
+    x-apievangelist-pagination:
+      style: page-number
+      request: [page, per_page, offset]
+      response_headers: [X-WP-Total, X-WP-TotalPages, Link]
+      max_per_page: 100
+- target: $.paths['/wp/v2/search'].get
+  update:
+    x-apievangelist-note: >-
+      Returns a thin projection (id, title, url, type, subtype); resolve _links.self for the
+      full Post or Page object.
+- target: $.paths['/oembed/1.0/embed'].get
+  update:
+    x-apievangelist-note: >-
+      The only embeddable surface HouseSigma exposes. Returns oEmbed 1.0 rich HTML (a sandboxed
+      iframe) plus a thumbnail_url. See components/housesigma-components.yml.
+- target: $.components.securitySchemes.applicationPassword
+  update:
+    x-apievangelist-note: >-
+      Advertised by the discovery document but not obtainable by third parties - HouseSigma
+      issues no credentials for this surface. Present for completeness; every modelled
+      operation is anonymous.

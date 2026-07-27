@@ -1,0 +1,165 @@
+generated: '2026-07-26'
+method: derived
+source: >-
+  openapi/housesigma-blog-content-openapi.yml and live responses captured under examples/,
+  2026-07-26
+api: HouseSigma Blog Content API
+note: >-
+  Derived from the operations and the _links hypermedia relations observed in live responses.
+  The entities below are WordPress content objects served from HouseSigma's blog host - they
+  are NOT real estate entities. HouseSigma's listing, sold-history and valuation objects live
+  only behind the private /bkv2/api/ backend, which publishes no schema, so no property/
+  listing data model is asserted here.
+entities:
+- name: Post
+  operations: [listPosts, getPost]
+  id_field: id
+  id_type: integer
+  key_fields: [id, date, date_gmt, modified, slug, status, type, link, title, content, excerpt,
+    author, featured_media, categories, tags, sticky, format]
+  note: A market-analysis blog article. 105 posts at time of capture (x-wp-total).
+- name: Page
+  operations: [listPages, getPage]
+  id_field: id
+  id_type: integer
+  key_fields: [id, date, slug, status, type, link, title, content, excerpt, author, parent,
+    menu_order, featured_media, template]
+  note: Static pages such as About US, FAQs, Contact Us, Terms of Use, Privacy Policy.
+- name: MediaItem
+  operations: [listMedia, getMediaItem]
+  id_field: id
+  id_type: integer
+  key_fields: [id, date, slug, type, link, title, author, caption, alt_text, media_type,
+    mime_type, media_details, source_url, post]
+- name: Category
+  operations: [listCategories, getCategory]
+  id_field: id
+  id_type: integer
+  key_fields: [id, count, description, link, name, slug, taxonomy, parent]
+  taxonomy: category
+- name: Tag
+  operations: [listTags, getTag]
+  id_field: id
+  id_type: integer
+  key_fields: [id, count, description, link, name, slug, taxonomy]
+  taxonomy: post_tag
+- name: User
+  operations: [listUsers, getUser]
+  id_field: id
+  id_type: integer
+  key_fields: [id, name, url, description, link, slug, avatar_urls]
+  note: Author records only; the public representation exposes no email or role.
+- name: Comment
+  operations: [listComments, getComment]
+  id_field: id
+  id_type: integer
+  key_fields: [id, post, parent, author, author_name, date, content, link, status, type]
+  note: Zero approved comments returned at time of capture.
+- name: SearchResult
+  operations: [search]
+  id_field: id
+  id_type: integer
+  key_fields: [id, title, url, type, subtype, _links]
+  note: A thin projection that points back at Post/Page via _links.self.
+- name: Taxonomy
+  operations: [listTaxonomies, getTaxonomy]
+  id_field: slug
+  id_type: string
+  key_fields: [name, slug, description, types, hierarchical, rest_base, visibility]
+- name: ContentType
+  operations: [listTypes, getType]
+  id_field: slug
+  id_type: string
+  key_fields: [name, slug, description, taxonomies, hierarchical, rest_base]
+- name: PostStatus
+  operations: [listStatuses, getStatus]
+  id_field: slug
+  id_type: string
+  key_fields: [name, slug, public, queryable, show_in_list]
+- name: OembedResponse
+  operations: [getOembed]
+  id_field: null
+  key_fields: [version, provider_name, provider_url, author_name, author_url, title, type,
+    width, height, html, description, thumbnail_url]
+  note: oEmbed 1.0 rich response; keyed by the source URL, not by an id.
+relationships:
+- from: Post
+  to: User
+  kind: belongs_to
+  via: author
+  evidence: 'integer author field + _links.author -> /wp/v2/users/{id}'
+- from: Post
+  to: MediaItem
+  kind: has_one
+  via: featured_media
+  evidence: 'integer featured_media field + _links["wp:featuredmedia"]'
+- from: Post
+  to: Category
+  kind: has_many
+  via: categories
+  evidence: 'integer array categories field + _links["wp:term"] taxonomy=category'
+- from: Post
+  to: Tag
+  kind: has_many
+  via: tags
+  evidence: 'integer array tags field + _links["wp:term"] taxonomy=post_tag'
+- from: Post
+  to: Comment
+  kind: has_many
+  via: post
+  evidence: '_links.replies -> /wp/v2/comments?post={id}'
+- from: Page
+  to: Page
+  kind: belongs_to
+  via: parent
+  evidence: hierarchical page tree; parent is a page id
+- from: Page
+  to: User
+  kind: belongs_to
+  via: author
+- from: MediaItem
+  to: Post
+  kind: belongs_to
+  via: post
+  evidence: attachment parent id
+- from: MediaItem
+  to: User
+  kind: belongs_to
+  via: author
+- from: Category
+  to: Category
+  kind: belongs_to
+  via: parent
+  evidence: category taxonomy is hierarchical
+- from: Comment
+  to: Post
+  kind: belongs_to
+  via: post
+- from: Comment
+  to: Comment
+  kind: belongs_to
+  via: parent
+  evidence: threaded replies
+- from: Comment
+  to: User
+  kind: belongs_to
+  via: author
+- from: Taxonomy
+  to: ContentType
+  kind: has_many
+  via: types
+- from: ContentType
+  to: Taxonomy
+  kind: has_many
+  via: taxonomies
+- from: SearchResult
+  to: Post
+  kind: has_one
+  via: id
+  evidence: 'subtype discriminates post vs page; _links.self resolves the full object'
+traversal:
+  detail: >-
+    _embed inlines author, wp:featuredmedia and wp:term in a single request; _fields narrows
+    the projection. Both are WordPress-core query controls rather than per-route args.
+id_prefixes: []
+id_note: All identifiers are bare auto-increment integers; there are no prefixed or opaque ids.

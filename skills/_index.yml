@@ -1,0 +1,23 @@
+generated: '2026-07-26'
+method: generated
+source: openapi/housesigma-blog-content-openapi.yml
+note: >-
+  Skills are grounded only in the public HouseSigma Blog Content API - the one anonymously
+  callable surface the company operates. No skill is authored for listings, sold history or
+  SigmaEstimate valuations, because HouseSigma exposes no public API for them and the private
+  /bkv2/api/ backend is undocumented and robots-disallowed. Every operationId referenced below
+  exists verbatim in the referenced spec.
+skills:
+- file: housesigma-track-market-commentary.md
+  name: Track HouseSigma Canadian housing-market commentary
+  api: openapi/housesigma-blog-content-openapi.yml
+  operations: [search, listPosts, getPost, listCategories, listTags, getCategory, getTag]
+- file: housesigma-mirror-content-catalog.md
+  name: Mirror the HouseSigma content catalog
+  api: openapi/housesigma-blog-content-openapi.yml
+  operations: [listTypes, listTaxonomies, listStatuses, listPosts, listPages, listMedia,
+    listUsers, listCategories, listTags, getPost, getPage, getMediaItem]
+- file: housesigma-embed-market-analysis.md
+  name: Embed a HouseSigma market-analysis post
+  api: openapi/housesigma-blog-content-openapi.yml
+  operations: [getOembed, search, getPost, getMediaItem]
