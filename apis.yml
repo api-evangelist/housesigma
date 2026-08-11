@@ -79,6 +79,8 @@ apis:
   - type: Conventions
     url: conventions/housesigma-conventions.yml
 common:
+- type: MCPServer
+  url: mcp/housesigma-mcp.yml
 - type: AgenticAccess
   url: agentic-access/housesigma-agentic-access.yml
 - type: DomainSecurity
