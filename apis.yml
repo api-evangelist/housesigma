@@ -42,7 +42,7 @@ tags:
 - Toronto
 created: '2026-07-26'
 modified: '2026-07-26'
-specificationVersion: '0.19'
+specificationVersion: '0.23'
 apis:
 - name: HouseSigma Blog Content API
   description: 'The public, read-only WordPress REST API (wp/v2) behind housesigma.com/blog-en, which
