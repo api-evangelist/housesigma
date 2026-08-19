@@ -2,30 +2,28 @@ generated: '2026-07-26'
 method: derived
 status: candidate
 source: openapi/housesigma-blog-content-openapi.yml
-search_result: >-
-  No official or third-party HouseSigma MCP server exists. Searched the docs surface (there is
-  none), the GitHub organization https://github.com/housesigma (four public repos - openmaptiles
-  fork, hr-interview, atlas, listing-chatbot-design - none MCP-related), npm (zero packages
-  matching housesigma), PyPI, RubyGems, crates.io and Packagist (all zero). No mcp.housesigma.com
-  host, no /.well-known/oauth-protected-resource, no MCP registry entry.
-pointer_note: >-
-  DELIBERATELY NOT WIRED as `type: MCPServer` in apis.yml. HouseSigma operates no MCP server;
-  this file is a candidate tool design derived from the public Blog Content API so that a
-  future round has a grounded starting point. Emitting an MCPServer pointer for a server that
-  does not exist would award the apis.io agent-readiness and ergonomics MCP checks for nothing
-  real. Promote the pointer only if HouseSigma (or a credible third party) actually ships one.
+search_result: No official or third-party HouseSigma MCP server exists. Searched the docs surface (there
+  is none), the GitHub organization https://github.com/housesigma (four public repos - openmaptiles fork,
+  hr-interview, atlas, listing-chatbot-design - none MCP-related), npm (zero packages matching housesigma),
+  PyPI, RubyGems, crates.io and Packagist (all zero). No mcp.housesigma.com host, no /.well-known/oauth-protected-resource,
+  no MCP registry entry.
+pointer_note: 'DELIBERATELY NOT WIRED as `type: MCPServer` in apis.yml. HouseSigma operates no MCP server;
+  this file is a candidate tool design derived from the public Blog Content API so that a future round
+  has a grounded starting point. Emitting an MCPServer pointer for a server that does not exist would
+  award the apis.io agent-readiness and ergonomics MCP checks for nothing real. Promote the pointer only
+  if HouseSigma (or a credible third party) actually ships one.'
 server:
   name: housesigma-blog-content
   transport: http
   url: null
   auth: none required - every backing operation is anonymous over HTTPS
-scope_note: >-
-  Tools cover ONLY the public WordPress-backed Blog Content API. HouseSigma's listings, sold
-  history and SigmaEstimate valuations are not exposed by any public API and therefore cannot
-  be modelled as tools without fabrication.
+scope_note: Tools cover ONLY the public WordPress-backed Blog Content API. HouseSigma's listings, sold
+  history and SigmaEstimate valuations are not exposed by any public API and therefore cannot be modelled
+  as tools without fabrication.
 tools:
 - name: list_posts
-  description: List HouseSigma Canadian housing-market blog posts, with search, date-window, taxonomy and ordering filters.
+  description: List HouseSigma Canadian housing-market blog posts, with search, date-window, taxonomy
+    and ordering filters.
   source_operation: openapi/housesigma-blog-content-openapi.yml#listPosts
 - name: get_post
   description: Retrieve a single blog post by id, including rendered title, content and excerpt.
@@ -88,9 +86,16 @@ tools:
   description: Retrieve a post status by slug.
   source_operation: openapi/housesigma-blog-content-openapi.yml#getStatus
 - name: get_oembed
-  description: Retrieve the oEmbed 1.0 rich representation (embeddable iframe HTML plus thumbnail) for a HouseSigma blog URL.
+  description: Retrieve the oEmbed 1.0 rich representation (embeddable iframe HTML plus thumbnail) for
+    a HouseSigma blog URL.
   source_operation: openapi/housesigma-blog-content-openapi.yml#getOembed
 coverage:
   rest_operations: 22
   tools_derived: 22
   tools_published: 0
+deployment:
+  mode: none
+  verified: derived
+  tools: 22
+  checked: '2026-08-12'
+  source: catalog MCP census
