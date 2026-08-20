@@ -25,6 +25,22 @@ description: 'HouseSigma, Inc. Brokerage is a Toronto-based Canadian residential
   membership, not through anything a third-party developer can sign up for.'
 image: https://housesigma.com/apple-touch-icon.png?v=2
 tags:
+- Real-Estate
+- Canada
+- Property Listings
+- MLS
+- Valuation
+- AVM
+- PropTech
+- Rentals
+- Blog
+- Content
+- WordPress
+- oEmbed
+- Ontario
+- British Columbia
+- Toronto
+tags_raw:
 - Real Estate
 - Canada
 - Property Listings
@@ -59,6 +75,13 @@ apis:
   humanURL: https://housesigma.com/blog-en/
   baseURL: https://housesigma.com/blog-en/wp-json
   tags:
+  - Blog
+  - Content
+  - Real-Estate
+  - Canada
+  - WordPress
+  - oEmbed
+  tags_raw:
   - Blog
   - Content
   - Real Estate
