@@ -60,39 +60,160 @@ created: '2026-07-26'
 modified: '2026-07-26'
 specificationVersion: '0.23'
 apis:
-- name: HouseSigma Blog Content API
-  description: 'The public, read-only WordPress REST API (wp/v2) behind housesigma.com/blog-en, which
-    serves HouseSigma''s Canadian housing-market analysis blog as JSON. This is the only anonymously
-    callable, machine-readable HTTP surface HouseSigma operates: 157 routes across 8 namespaces are
-    advertised by the live route-discovery document at https://housesigma.com/blog-en/wp-json/ (HTTP
-    200), of which 22 GET operations - posts, pages, media, categories, tags, authors, comments,
-    search, the type/taxonomy/status registry, and oEmbed - were verified to answer without credentials.
-    Page-number pagination with X-WP-Total / X-WP-TotalPages / RFC 8288 Link headers; errors use
-    the WordPress {code,message,data.status} envelope rather than RFC 9457. It is NOT an official
-    HouseSigma developer product: the company documents, supports and issues keys for nothing, and
-    its listing, sold-price and SigmaEstimate valuation data is served only by the private, robots-disallowed
-    /bkv2/api/ backend, which is deliberately not listed here.'
+- aid: housesigma:housesigma-comments-api
+  name: HouseSigma Comments API
+  description: The Comments API from HouseSigma — 2 operation(s) for comments.
   humanURL: https://housesigma.com/blog-en/
   baseURL: https://housesigma.com/blog-en/wp-json
   tags:
-  - Blog
-  - Content
-  - Real-Estate
-  - Canada
-  - WordPress
-  - oEmbed
-  tags_raw:
-  - Blog
-  - Content
-  - Real Estate
-  - Canada
-  - WordPress
+  - Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-comments-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-media-api
+  name: HouseSigma Media API
+  description: The Media API from HouseSigma — 2 operation(s) for media.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - Media
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-media-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-oembed-api
+  name: HouseSigma O Embed API
+  description: The oEmbed API from HouseSigma — 1 operation(s) for oembed.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
   - oEmbed
   properties:
   - type: OpenAPI
-    url: openapi/housesigma-blog-content-openapi.yml
-  - type: Overlay
-    url: overlays/housesigma-blog-content-overlay.yaml
+    url: openapi/housesigma-oembed-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-pages-api
+  name: HouseSigma Pages API
+  description: The Pages API from HouseSigma — 2 operation(s) for pages.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - Pages
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-pages-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-posts-api
+  name: HouseSigma Posts API
+  description: The Posts API from HouseSigma — 2 operation(s) for posts.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - Posts
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-posts-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-search-api
+  name: HouseSigma Search API
+  description: The Search API from HouseSigma — 1 operation(s) for search.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-search-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-taxonomies-api
+  name: HouseSigma Taxonomies API
+  description: The Taxonomies API from HouseSigma — 4 operation(s) for taxonomies.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - Taxonomies
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-taxonomies-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-types-api
+  name: HouseSigma Types API
+  description: The Types API from HouseSigma — 6 operation(s) for types.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - Types
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-types-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-users-api
+  name: HouseSigma Users API
+  description: The Users API from HouseSigma — 2 operation(s) for users.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-users-api-openapi.yml
   - type: Examples
     url: examples/
   - type: ErrorCatalog
