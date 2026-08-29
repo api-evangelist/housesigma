@@ -23,6 +23,18 @@ description: 'HouseSigma, Inc. Brokerage is a Toronto-based Canadian residential
   or Universal Property Identifier usage was found. No open, unlicensed dataset is published. The
   underlying listing and sold data is board-licensed and reaches HouseSigma through its own brokerage
   membership, not through anything a third-party developer can sign up for.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://housesigma.com/apple-touch-icon.png?v=2
 tags:
 - Real-Estate
