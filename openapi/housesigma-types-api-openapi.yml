@@ -1,0 +1,340 @@
+openapi: 3.2.0
+info:
+  title: HouseSigma Blog Content Types API
+  version: wp/v2
+  summary: Public, read-only WordPress REST API serving HouseSigma's Canadian housing-market blog.
+  description: 'HouseSigma publishes no developer program for its real estate platform: the listing/sold/valuation backend at https://housesigma.com/bkv2/api/ is private and robots-disallowed. This document covers the one genuinely public, anonymously callable, machine-readable HTTP surface HouseSigma operates - the WordPress REST API (wp/v2) behind housesigma.com/blog-en, which serves the company''s Canadian market-analysis blog as JSON.
+
+
+    This OpenAPI is DERIVED by API Evangelist from the live route-discovery document at https://housesigma.com/blog-en/wp-json/ (157 routes across 8 namespaces, HTTP 200, fetched 2026-07-26). Every path, method, parameter name, type, description, default and bound below is copied from that document; nothing is invented. Only routes verified to return HTTP 200 to an anonymous request are included.
+
+
+    Write methods (POST/PUT/PATCH/DELETE) are declared by the discovery document on most collections but require WordPress authentication (the document advertises application passwords at /blog-en/wp-admin/authorize-application.php) and are deliberately NOT modelled here. Routes that returned 401 anonymously (/wp/v2/settings, /wp/v2/block-types, /oembed/1.0/proxy, /basepress_kb/v1/kb_categories) are likewise excluded.
+
+
+    This is not an official HouseSigma developer product. HouseSigma does not document, support, or issue keys for this surface; it is the standard WordPress REST API left enabled on the company''s blog host.'
+  contact:
+    name: HouseSigma
+    url: https://housesigma.com/blog-en/contact-us/
+  termsOfService: https://housesigma.com/blog-en/2018/04/25/terms-of-use/
+  x-evidence:
+    discovery-document: https://housesigma.com/blog-en/wp-json/
+    http-status: 200
+    fetched: '2026-07-26'
+    derived-by: API Evangelist enrichment pipeline
+    namespaces-advertised:
+    - oembed/1.0
+    - basepress_kb/v1
+    - contact-form-7/v1
+    - saswp-output
+    - yoast/v1
+    - wp/v2
+    - wp-site-health/v1
+    - wp-block-editor/v1
+    routes-advertised: 157
+servers:
+- url: https://housesigma.com/blog-en/wp-json
+  description: Production (public, read-only)
+security: []
+tags:
+- name: Types
+paths:
+  /wp/v2/taxonomies:
+    get:
+      operationId: listTaxonomies
+      summary: List registered taxonomies
+      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/wp/v2/taxonomies`). Verified to answer anonymously over HTTPS on 2026-07-26.
+      tags:
+      - Types
+      security:
+      - {}
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      parameters:
+      - name: context
+        in: query
+        required: false
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: type
+        in: query
+        required: false
+        description: Limit results to taxonomies associated with a specific post type.
+        schema:
+          type: string
+  /wp/v2/taxonomies/{taxonomy}:
+    get:
+      operationId: getTaxonomy
+      summary: Retrieve a taxonomy
+      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/wp/v2/taxonomies/(?P<taxonomy>[\w-]+)`). Verified to answer anonymously over HTTPS on 2026-07-26.
+      tags:
+      - Types
+      security:
+      - {}
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      parameters:
+      - name: taxonomy
+        in: path
+        required: true
+        description: An alphanumeric identifier for the taxonomy.
+        schema:
+          type: string
+      - name: context
+        in: query
+        required: false
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+  /wp/v2/types:
+    get:
+      operationId: listTypes
+      summary: List registered content types
+      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/wp/v2/types`). Verified to answer anonymously over HTTPS on 2026-07-26.
+      tags:
+      - Types
+      security:
+      - {}
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      parameters:
+      - name: context
+        in: query
+        required: false
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+  /wp/v2/types/{type}:
+    get:
+      operationId: getType
+      summary: Retrieve a content type
+      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/wp/v2/types/(?P<type>[\w-]+)`). Verified to answer anonymously over HTTPS on 2026-07-26.
+      tags:
+      - Types
+      security:
+      - {}
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      parameters:
+      - name: type
+        in: path
+        required: true
+        description: An alphanumeric identifier for the post type.
+        schema:
+          type: string
+      - name: context
+        in: query
+        required: false
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+  /wp/v2/statuses:
+    get:
+      operationId: listStatuses
+      summary: List post statuses
+      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/wp/v2/statuses`). Verified to answer anonymously over HTTPS on 2026-07-26.
+      tags:
+      - Types
+      security:
+      - {}
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      parameters:
+      - name: context
+        in: query
+        required: false
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+  /wp/v2/statuses/{status}:
+    get:
+      operationId: getStatus
+      summary: Retrieve a post status
+      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/wp/v2/statuses/(?P<status>[\w-]+)`). Verified to answer anonymously over HTTPS on 2026-07-26.
+      tags:
+      - Types
+      security:
+      - {}
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      parameters:
+      - name: status
+        in: path
+        required: true
+        description: An alphanumeric identifier for the status.
+        schema:
+          type: string
+      - name: context
+        in: query
+        required: false
+        description: Scope under which the request is made; determines fields present in response.
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+components:
+  responses:
+    NotFound:
+      description: No such route or resource (rest_no_route / rest_post_invalid_id).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: rest_post_invalid_id
+            message: Invalid post ID.
+            data:
+              status: 404
+    Forbidden:
+      description: Not permitted anonymously (rest_forbidden).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: rest_forbidden
+            message: Sorry, you are not allowed to do that.
+            data:
+              status: 401
+    InvalidParam:
+      description: Invalid parameter (rest_invalid_param).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: rest_invalid_param
+            message: 'Invalid parameter(s): per_page'
+            data:
+              status: 400
+              params:
+                per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+  schemas:
+    Error:
+      type: object
+      description: The WordPress REST error envelope, captured verbatim from live responses.
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, e.g. rest_no_route.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: HTTP status code.
+            params:
+              type: object
+              description: Per-parameter messages (rest_invalid_param only).
+            details:
+              type: object
+              description: Per-parameter nested error objects (rest_invalid_param only).
+          required:
+          - status
+      required:
+      - code
+      - message
+      - data
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress application passwords, advertised by the live discovery document at https://housesigma.com/blog-en/wp-admin/authorize-application.php. Required only for write methods and for routes excluded from this document; every operation modelled here is anonymous.

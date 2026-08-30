@@ -1,0 +1,156 @@
+openapi: 3.2.0
+info:
+  title: HouseSigma Blog Content O Embed API
+  version: wp/v2
+  summary: Public, read-only WordPress REST API serving HouseSigma's Canadian housing-market blog.
+  description: 'HouseSigma publishes no developer program for its real estate platform: the listing/sold/valuation backend at https://housesigma.com/bkv2/api/ is private and robots-disallowed. This document covers the one genuinely public, anonymously callable, machine-readable HTTP surface HouseSigma operates - the WordPress REST API (wp/v2) behind housesigma.com/blog-en, which serves the company''s Canadian market-analysis blog as JSON.
+
+
+    This OpenAPI is DERIVED by API Evangelist from the live route-discovery document at https://housesigma.com/blog-en/wp-json/ (157 routes across 8 namespaces, HTTP 200, fetched 2026-07-26). Every path, method, parameter name, type, description, default and bound below is copied from that document; nothing is invented. Only routes verified to return HTTP 200 to an anonymous request are included.
+
+
+    Write methods (POST/PUT/PATCH/DELETE) are declared by the discovery document on most collections but require WordPress authentication (the document advertises application passwords at /blog-en/wp-admin/authorize-application.php) and are deliberately NOT modelled here. Routes that returned 401 anonymously (/wp/v2/settings, /wp/v2/block-types, /oembed/1.0/proxy, /basepress_kb/v1/kb_categories) are likewise excluded.
+
+
+    This is not an official HouseSigma developer product. HouseSigma does not document, support, or issue keys for this surface; it is the standard WordPress REST API left enabled on the company''s blog host.'
+  contact:
+    name: HouseSigma
+    url: https://housesigma.com/blog-en/contact-us/
+  termsOfService: https://housesigma.com/blog-en/2018/04/25/terms-of-use/
+  x-evidence:
+    discovery-document: https://housesigma.com/blog-en/wp-json/
+    http-status: 200
+    fetched: '2026-07-26'
+    derived-by: API Evangelist enrichment pipeline
+    namespaces-advertised:
+    - oembed/1.0
+    - basepress_kb/v1
+    - contact-form-7/v1
+    - saswp-output
+    - yoast/v1
+    - wp/v2
+    - wp-site-health/v1
+    - wp-block-editor/v1
+    routes-advertised: 157
+servers:
+- url: https://housesigma.com/blog-en/wp-json
+  description: Production (public, read-only)
+security: []
+tags:
+- name: oEmbed
+paths:
+  /oembed/1.0/embed:
+    get:
+      operationId: getOembed
+      summary: Retrieve the oEmbed representation of a HouseSigma blog URL
+      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/oembed/1.0/embed`). Verified to answer anonymously over HTTPS on 2026-07-26.
+      tags:
+      - oEmbed
+      security:
+      - {}
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          $ref: '#/components/responses/InvalidParam'
+        '401':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      parameters:
+      - name: url
+        in: query
+        required: true
+        description: The URL of the resource for which to fetch oEmbed data.
+        schema:
+          type: string
+          format: uri
+      - name: format
+        in: query
+        required: false
+        description: Query parameter declared by the live discovery document.
+        schema:
+          type: string
+          default: json
+      - name: maxwidth
+        in: query
+        required: false
+        description: Query parameter declared by the live discovery document.
+        schema:
+          type: string
+          default: 600
+components:
+  responses:
+    NotFound:
+      description: No such route or resource (rest_no_route / rest_post_invalid_id).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: rest_post_invalid_id
+            message: Invalid post ID.
+            data:
+              status: 404
+    Forbidden:
+      description: Not permitted anonymously (rest_forbidden).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: rest_forbidden
+            message: Sorry, you are not allowed to do that.
+            data:
+              status: 401
+    InvalidParam:
+      description: Invalid parameter (rest_invalid_param).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: rest_invalid_param
+            message: 'Invalid parameter(s): per_page'
+            data:
+              status: 400
+              params:
+                per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+  schemas:
+    Error:
+      type: object
+      description: The WordPress REST error envelope, captured verbatim from live responses.
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, e.g. rest_no_route.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: HTTP status code.
+            params:
+              type: object
+              description: Per-parameter messages (rest_invalid_param only).
+            details:
+              type: object
+              description: Per-parameter nested error objects (rest_invalid_param only).
+          required:
+          - status
+      required:
+      - code
+      - message
+      - data
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress application passwords, advertised by the live discovery document at https://housesigma.com/blog-en/wp-admin/authorize-application.php. Required only for write methods and for routes excluded from this document; every operation modelled here is anonymous.
