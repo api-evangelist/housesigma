@@ -186,6 +186,8 @@ apis:
   humanURL: https://housesigma.com/blog-en/
   baseURL: https://housesigma.com/blog-en/wp-json
   tags:
+  - taxonomies
+  tags_raw:
   - Taxonomies
   properties:
   - type: OpenAPI
@@ -222,6 +224,8 @@ apis:
   humanURL: https://housesigma.com/blog-en/
   baseURL: https://housesigma.com/blog-en/wp-json
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
