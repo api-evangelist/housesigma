@@ -121,24 +121,6 @@ apis:
     url: data-model/housesigma-data-model.yml
   - type: Conventions
     url: conventions/housesigma-conventions.yml
-- aid: housesigma:housesigma-oembed-api
-  name: HouseSigma O Embed API
-  description: The oEmbed API from HouseSigma — 1 operation(s) for oembed.
-  humanURL: https://housesigma.com/blog-en/
-  baseURL: https://housesigma.com/blog-en/wp-json
-  tags:
-  - oEmbed
-  properties:
-  - type: OpenAPI
-    url: openapi/housesigma-oembed-api-openapi.yml
-  - type: Examples
-    url: examples/
-  - type: ErrorCatalog
-    url: errors/housesigma-problem-types.yml
-  - type: DataModel
-    url: data-model/housesigma-data-model.yml
-  - type: Conventions
-    url: conventions/housesigma-conventions.yml
 - aid: housesigma:housesigma-pages-api
   name: HouseSigma Pages API
   description: The Pages API from HouseSigma — 2 operation(s) for pages.
@@ -243,6 +225,24 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/housesigma-users-api-openapi.yml
+  - type: Examples
+    url: examples/
+  - type: ErrorCatalog
+    url: errors/housesigma-problem-types.yml
+  - type: DataModel
+    url: data-model/housesigma-data-model.yml
+  - type: Conventions
+    url: conventions/housesigma-conventions.yml
+- aid: housesigma:housesigma-o-embed-api
+  name: HouseSigma o Embed API
+  description: The o Embed API from HouseSigma — 1 operation(s) for o embed.
+  humanURL: https://housesigma.com/blog-en/
+  baseURL: https://housesigma.com/blog-en/wp-json
+  tags:
+  - o Embed
+  properties:
+  - type: OpenAPI
+    url: openapi/housesigma-o-embed-api-openapi.yml
   - type: Examples
     url: examples/
   - type: ErrorCatalog
