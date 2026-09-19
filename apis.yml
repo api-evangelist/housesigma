@@ -239,6 +239,8 @@ apis:
   humanURL: https://housesigma.com/blog-en/
   baseURL: https://housesigma.com/blog-en/wp-json
   tags:
+  - oEmbed
+  tags_raw:
   - o Embed
   properties:
   - type: OpenAPI
