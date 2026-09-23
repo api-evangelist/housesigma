@@ -1,0 +1,39 @@
+{
+  "provider": "housesigma",
+  "sources": [
+    "_original/housesigma-blog-content-openapi.yml"
+  ],
+  "outputs": [
+    "housesigma-comments-api-openapi.yml",
+    "housesigma-media-api-openapi.yml",
+    "housesigma-pages-api-openapi.yml",
+    "housesigma-posts-api-openapi.yml",
+    "housesigma-search-api-openapi.yml",
+    "housesigma-taxonomies-api-openapi.yml",
+    "housesigma-types-api-openapi.yml",
+    "housesigma-users-api-openapi.yml",
+    "housesigma-oembed-api-openapi.yml"
+  ],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "housesigma-blog-content-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: housesigma-o-embed-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 9 total)"
+  ],
+  "skipped": [
+    "housesigma-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "housesigma-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "housesigma-o-embed-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "housesigma-pages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "housesigma-posts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "housesigma-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "housesigma-taxonomies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "housesigma-types-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "housesigma-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

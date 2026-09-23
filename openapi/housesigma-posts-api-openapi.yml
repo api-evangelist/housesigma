@@ -3,16 +3,7 @@ info:
   title: HouseSigma Blog Content Posts API
   version: wp/v2
   summary: Public, read-only WordPress REST API serving HouseSigma's Canadian housing-market blog.
-  description: 'HouseSigma publishes no developer program for its real estate platform: the listing/sold/valuation backend at https://housesigma.com/bkv2/api/ is private and robots-disallowed. This document covers the one genuinely public, anonymously callable, machine-readable HTTP surface HouseSigma operates - the WordPress REST API (wp/v2) behind housesigma.com/blog-en, which serves the company''s Canadian market-analysis blog as JSON.
-
-
-    This OpenAPI is DERIVED by API Evangelist from the live route-discovery document at https://housesigma.com/blog-en/wp-json/ (157 routes across 8 namespaces, HTTP 200, fetched 2026-07-26). Every path, method, parameter name, type, description, default and bound below is copied from that document; nothing is invented. Only routes verified to return HTTP 200 to an anonymous request are included.
-
-
-    Write methods (POST/PUT/PATCH/DELETE) are declared by the discovery document on most collections but require WordPress authentication (the document advertises application passwords at /blog-en/wp-admin/authorize-application.php) and are deliberately NOT modelled here. Routes that returned 401 anonymously (/wp/v2/settings, /wp/v2/block-types, /oembed/1.0/proxy, /basepress_kb/v1/kb_categories) are likewise excluded.
-
-
-    This is not an official HouseSigma developer product. HouseSigma does not document, support, or issue keys for this surface; it is the standard WordPress REST API left enabled on the company''s blog host.'
+  description: 'HouseSigma publishes no developer program for its real estate platform: the listing/sold/valuation backend at https://housesigma.com/bkv2/api/ is private and robots-disallowed.'
   contact:
     name: HouseSigma
     url: https://housesigma.com/blog-en/contact-us/
@@ -283,7 +274,7 @@ paths:
     get:
       operationId: getPost
       summary: Retrieve a blog post by id
-      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/wp/v2/posts/(?P<id>[\d]+)`). Verified to answer anonymously over HTTPS on 2026-07-26.
+      description: Derived from the live WordPress REST route-discovery document at https://housesigma.com/blog-en/wp-json/ (route `/wp/v2/posts/(?P[\d]+)`). Verified to answer anonymously over HTTPS on 2026-07-26.
       tags:
       - Posts
       security:
@@ -338,17 +329,6 @@ components:
             message: Invalid post ID.
             data:
               status: 404
-    Forbidden:
-      description: Not permitted anonymously (rest_forbidden).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-          example:
-            code: rest_forbidden
-            message: Sorry, you are not allowed to do that.
-            data:
-              status: 401
     InvalidParam:
       description: Invalid parameter (rest_invalid_param).
       content:
@@ -362,6 +342,17 @@ components:
               status: 400
               params:
                 per_page: per_page must be between 1 (inclusive) and 100 (inclusive)
+    Forbidden:
+      description: Not permitted anonymously (rest_forbidden).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: rest_forbidden
+            message: Sorry, you are not allowed to do that.
+            data:
+              status: 401
   schemas:
     Error:
       type: object
